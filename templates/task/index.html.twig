@@ -5,6 +5,17 @@
 {% block body %}
     <h1>Задачи</h1>
 
+    <form method="get" style="margin-bottom: 15px;">
+        <label>
+            <input type="checkbox"
+                   name="hide_completed"
+                   value="1"
+                   onchange="this.form.submit()"
+                {{ hideCompleted ? 'checked' : '' }}>
+            Скрыть завершённые
+        </label>
+    </form>
+
     <table class="table">
         <thead>
             <tr>

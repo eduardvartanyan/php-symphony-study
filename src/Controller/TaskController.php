@@ -15,10 +15,17 @@ use Symfony\Component\Routing\Attribute\Route;
 final class TaskController extends AbstractController
 {
     #[Route(name: 'app_task_index', methods: ['GET'])]
-    public function index(TaskRepository $taskRepository): Response
+    public function index(TaskRepository $taskRepository, Request $request): Response
     {
+        $hideCompleted = $request->query->get('hide_completed');
+
+        $tasks = $hideCompleted
+            ? $taskRepository->findBy(['isCompleted' => false])
+            : $taskRepository->findAll();
+
         return $this->render('task/index.html.twig', [
-            'tasks' => $taskRepository->findAll(),
+            'tasks' => $tasks,
+            'hideCompleted' => $hideCompleted,
         ]);
     }
 
